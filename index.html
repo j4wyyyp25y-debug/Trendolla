@@ -202,7 +202,9 @@ document.getElementById('buyNow').addEventListener('click', ()=>{
   document.getElementById('name').focus();
 });
 
-// ====== Order form with WhatsApp (main number) ======
+// ====== Order form -> Google Sheet (بدل الواتساب) ======
+const GOOGLE_SHEET_WEBAPP = "https://script.google.com/macros/s/AKfycby8mHrp_t5XfefTpftxK01vEj_iWKforQYA3JBWFCdioGtF-wMJpUb78tnNJbg8SdE5/exec"
+
 document.getElementById('orderForm').addEventListener('submit', function(e){
   e.preventDefault();
   const name = document.getElementById('name').value.trim();
@@ -211,27 +213,33 @@ document.getElementById('orderForm').addEventListener('submit', function(e){
   const address = document.getElementById('address').value.trim();
   const qty = Number(qtyInput.value) || 1;
   const total = calcPrice(qty);
+
   if(!name || !phone){ alert('من فضلك اكتب الاسم ورقم الموبايل الأساسي.'); return; }
 
-  const waNumber="201093931681";
-  let message="طلب جديد من Trendolla Store:%0A";
-  message+="الاسم: "+encodeURIComponent(name)+"%0A";
-  message+="الموبايل: "+encodeURIComponent(phone)+"%0A";
-  if(phone2) message+="موبايل إضافي: "+encodeURIComponent(phone2)+"%0A";
-  message+="العنوان: "+encodeURIComponent(address||'غير مدخل')+"%0A";
-  message+="الكمية: "+qty+"%0A";
-  message+="الإجمالي: "+total+" ج%0A";
-  message+="المنتج: كابل 4×1 — كابل متعدد";
+  // إرسال البيانات إلى Google Sheet (ورقة Orders)
+  // نستخدم mode: 'no-cors' عشان نقدر نبعث من المتصفح بدون مشاكل CORS.
+  fetch(GOOGLE_SHEET_WEBAPP, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      name: name,
+      phone: phone,
+      phone2: phone2,
+      address: address,
+      qty: qty,
+      total: total
+    })
+  });
 
-  window.open(`https://wa.me/${waNumber}?text=${message}`,'_blank');
-
+  // عرض رسالة تأكيد داخل الصفحة (بدون تحويل لواتساب)
   const summary = `<div style="padding:12px;background:#f1f9ff;border-radius:8px">
-<strong>تم استلام طلبك في Trendolla Store!</strong>
+<strong>✅ تم استلام طلبك في Trendolla Store!</strong>
 <div style="margin-top:8px">الاسم: ${escapeHtml(name)}</div>
 <div>الموبايل: ${escapeHtml(phone)}</div>
 ${phone2?`<div>موبايل إضافي: ${escapeHtml(phone2)}</div>`:''}
 <div>العنوان: ${escapeHtml(address||'غير مدخل')}</div>
-<div>الكمية: ${qty}</div>
+<div>الالكمية: ${qty}</div>
 <div style="margin-top:6px;font-weight:700">الإجمالي: ${total} ج</div>
 <div style="margin-top:8px;color:#374151">طريقة الدفع: دفع عند الاستلام</div>
 <div style="margin-top:10px;color:#6b7280">سيتم التواصل معك لتأكيد الطلب خلال ساعات العمل.</div>
@@ -244,7 +252,7 @@ ${phone2?`<div>موبايل إضافي: ${escapeHtml(phone2)}</div>`:''}
 
 function escapeHtml(text){ return String(text).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 
-// Quick contact button
+// Quick contact button (optional still يفتح واتساب للرسائل العامة)
 document.getElementById('quickContact').addEventListener('click', ()=>{
   const waNumber="201093931681";
   const preset=encodeURIComponent("مرحبا! أريد الاستفسار عن كابل 4×1");
