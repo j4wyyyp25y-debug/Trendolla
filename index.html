@@ -84,7 +84,40 @@ footer{max-width:1100px;margin:24px auto;padding:18px;text-align:center;color:va
 <main class="container">
 <div class="grid" id="top">
 <div>
-<!-- منتج 1 -->
+<!-- منتج 1: الايربودز أولًا -->
+<div class="card" style="margin-top:16px">
+<div class="product-img" id="airpodsImage">
+<div class="img-wrap"><img src="Airpods.jpg" alt="ايربودز برو"/></div>
+</div>
+<h1>ايربودز برو ⚡✨</h1>
+<p class="lead">إيربودز برو بشاشة ديچيتال ذكية! 😍<br>
+مش بس شكل جديد 💎 ده جيل جديد من السماعات الذكية اللي بتجمع بين الأناقة والتكنولوجيا في تصميم واحد 👂💥</p>
+<div class="badge-shiny">🚚 توصيل مجاني لجميع المحافظات</div>
+<div class="sub-info">🎁 السعر شامل الإيربودز برو — الدفع عند الاستلام</div>
+<div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+<ul>
+<li>🔹 شاشة ديجيتال بتعرض حالة البطارية لكل سماعة 🔋</li>
+<li>🔹 ميزة Noise Reduction & ANC/ENC لعزل الضوضاء تمامًا</li>
+<li>🔹 صوت نقي بوضوح احترافي 🎵</li>
+<li>🔹 تحكم باللمس الكامل 🎛️</li>
+<li>🔹 تصميم مريح وخفيف جدًا</li>
+<li>🔹 بطارية قوية تدوم بالساعات</li>
+</ul>
+<div class="price" id="airpodsPrice">السعر: 600 ج</div>
+
+<div class="qty-row" style="margin-top:14px">
+<label style="font-weight:700">الكمية</label>
+<input type="number" id="qtyAirpods" min="0" value="0" />
+<button class="ghost" id="addAirpods">+</button>
+<button class="ghost" id="subAirpods">-</button>
+<div style="margin-left:auto">
+<button class="primary buyNowBtn">اطلب الآن</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- منتج 2: الكابل بعد الايربودز -->
 <div class="card" id="productSection">
 <div class="product-img" id="productImage">
 <div class="img-wrap"><img src="PEPO.jpg" alt="كابل 4×1"/></div>
@@ -102,7 +135,7 @@ footer{max-width:1100px;margin:24px auto;padding:18px;text-align:center;color:va
 </div>
 <div class="qty-row" style="margin-top:14px">
 <label style="font-weight:700">الكمية</label>
-<input type="number" id="qtyCable" min="0" value="1" />
+<input type="number" id="qtyCable" min="0" value="0" />
 <button class="ghost" id="addCable">+</button>
 <button class="ghost" id="subCable">-</button>
 <div style="margin-left:auto">
@@ -110,44 +143,11 @@ footer{max-width:1100px;margin:24px auto;padding:18px;text-align:center;color:va
 </div>
 </div>
 <div class="order-summary" id="price-breakdown">
-<div>ملخص السعر: <span id="total-text">170 ج</span></div>
+<div>ملخص السعر: <span id="total-text">0 ج</span></div>
 </div>
 <div class="note">ملحوظة: الدفع عند الاستلام — سيطلب منك المندوب المبلغ عند التسليم.</div>
 </div>
 <div style="height:32px"></div>
-
-<!-- منتج 2 -->
-<div class="card" style="margin-top:16px">
-<div class="product-img" id="airpodsImage">
-<div class="img-wrap"><img src="Airpods.jpg" alt="ايربودز برو"/></div>
-</div>
-<h1>ايربودز برو ⚡✨</h1>
-<p class="lead">إيربودز برو بشاشة ديچيتال ذكية! 😍<br>
-مش بس شكل جديد 💎 ده جيل جديد من السماعات الذكية اللي بتجمع بين الأناقة والتكنولوجيا في تصميم واحد 👂💥</p>
-<div class="badge-shiny">🚚 توصيل مجاني لجميع المحافظات</div>
-<div class="sub-info">🎁 السعر شامل كابل 4×1 + الإيربودز برو — الدفع عند الاستلام</div>
-<div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
-<ul>
-<li>🔹 شاشة ديجيتال بتعرض حالة البطارية لكل سماعة 🔋</li>
-<li>🔹 ميزة Noise Reduction & ANC/ENC لعزل الضوضاء تمامًا</li>
-<li>🔹 صوت نقي بوضوح احترافي 🎵</li>
-<li>🔹 تحكم باللمس الكامل 🎛️</li>
-<li>🔹 تصميم مريح وخفيف جدًا</li>
-<li>🔹 بطارية قوية تدوم بالساعات</li>
-</ul>
-<div class="price" id="airpodsPrice">السعر: 600 ج</div>
-
-<div class="qty-row" style="margin-top:14px">
-<label style="font-weight:700">الكمية</label>
-<input type="number" id="qtyAirpods" min="0" value="1" />
-<button class="ghost" id="addAirpods">+</button>
-<button class="ghost" id="subAirpods">-</button>
-<div style="margin-left:auto">
-<button class="primary buyNowBtn">اطلب الآن</button>
-</div>
-</div>
-</div>
-</div>
 
 <div class="card" style="margin-top:16px">
 <h3>تفاصيل المنتج</h3>
@@ -227,8 +227,7 @@ function refreshPrices() {
   const qCable = Number(qtyCable.value) || 0;
   const qAirpods = Number(qtyAirpods.value) || 0;
 
-  // الكابل مجاني مع أي ايربودز
-  const totalCable = qAirpods > 0 ? 0 : qCable * unitPriceCable;
+  const totalCable = qCable * unitPriceCable;
   const totalAirpods = qAirpods * unitPriceAirpods;
   const total = totalCable + totalAirpods;
 
@@ -238,43 +237,21 @@ function refreshPrices() {
 }
 
 // أزرار الكابل
-document.getElementById('addCable').addEventListener('click', ()=>{
-  qtyCable.value = Number(qtyCable.value) + 1;
-  refreshPrices();
-});
-document.getElementById('subCable').addEventListener('click', ()=>{
-  qtyCable.value = Math.max(0, Number(qtyCable.value) - 1);
-  refreshPrices();
-});
+document.getElementById('addCable').addEventListener('click', ()=>{ qtyCable.value = Number(qtyCable.value) + 1; refreshPrices(); });
+document.getElementById('subCable').addEventListener('click', ()=>{ qtyCable.value = Math.max(0, Number(qtyCable.value) - 1); refreshPrices(); });
 qtyCable.addEventListener('input', refreshPrices);
 
 // أزرار الايربودز
-document.getElementById('addAirpods').addEventListener('click', ()=>{
-  qtyAirpods.value = Number(qtyAirpods.value) + 1;
-  refreshPrices();
-});
-document.getElementById('subAirpods').addEventListener('click', ()=>{
-  qtyAirpods.value = Math.max(0, Number(qtyAirpods.value) - 1);
-  refreshPrices();
-});
+document.getElementById('addAirpods').addEventListener('click', ()=>{ qtyAirpods.value = Number(qtyAirpods.value) + 1; refreshPrices(); });
+document.getElementById('subAirpods').addEventListener('click', ()=>{ qtyAirpods.value = Math.max(0, Number(qtyAirpods.value) - 1); refreshPrices(); });
 qtyAirpods.addEventListener('input', refreshPrices);
 
 refreshPrices();
 
 // Scroll buttons
-document.getElementById('shopNowBtn').addEventListener('click', ()=>{
-  window.open("https://whatsapp.com/channel/0029VbAxdH7K0IBaED4Nu53L","_blank");
-});
-document.getElementById('contactBtn').addEventListener('click', ()=>{
-  document.getElementById('orderSection').scrollIntoView({behavior:'smooth', block:'center'});
-  setTimeout(()=> document.getElementById('name').focus(),450);
-});
-document.querySelectorAll('.buyNowBtn').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-        document.getElementById('orderSection').scrollIntoView({behavior:'smooth', block:'center'});
-        document.getElementById('name').focus();
-    });
-});
+document.getElementById('shopNowBtn').addEventListener('click', ()=>{ window.open("https://whatsapp.com/channel/0029VbAxdH7K0IBaED4Nu53L","_blank"); });
+document.getElementById('contactBtn').addEventListener('click', ()=>{ document.getElementById('orderSection').scrollIntoView({behavior:'smooth', block:'center'}); setTimeout(()=> document.getElementById('name').focus(),450); });
+document.querySelectorAll('.buyNowBtn').forEach(btn=>{ btn.addEventListener('click', ()=>{ document.getElementById('orderSection').scrollIntoView({behavior:'smooth', block:'center'}); document.getElementById('name').focus(); }); });
 
 // Order form -> Google Sheet
 const GOOGLE_SHEET_WEBAPP = "https://script.google.com/macros/s/AKfycby8mHrp_t5XfefTpftxK01vEj_iWKforQYA3JBWFCdioGtF-wMJpUb78tnNJbg8SdE5/exec"
@@ -286,7 +263,7 @@ document.getElementById('orderForm').addEventListener('submit', function(e){
   const address = document.getElementById('address').value.trim();
   const qCable = Number(qtyCable.value)||0;
   const qAirpods = Number(qtyAirpods.value)||0;
-  const total = (qAirpods>0?0:qCable*unitPriceCable) + qAirpods*unitPriceAirpods;
+  const total = qCable*unitPriceCable + qAirpods*unitPriceAirpods;
 
   if(!name || !phone){ alert('من فضلك اكتب الاسم ورقم الموبايل الأساسي.'); return; }
 
@@ -331,11 +308,7 @@ const chatBody=document.getElementById('chatBody');
 
 chatBtn.addEventListener('click', ()=>{ chatWindow.style.display = chatWindow.style.display==='flex'?'none':'flex'; });
 
-sendChat.addEventListener('click', ()=>{
-  const v=chatInput.value.trim(); if(!v) return;
-  appendMessage(v,true); chatInput.value='';
-  setTimeout(()=> appendMessage(botReply(v),false),500);
-});
+sendChat.addEventListener('click', ()=>{ const v=chatInput.value.trim(); if(!v) return; appendMessage(v,true); chatInput.value=''; setTimeout(()=> appendMessage(botReply(v),false),500); });
 chatInput.addEventListener('keydown',(e)=>{ if(e.key==='Enter'){sendChat.click(); } });
 
 function appendMessage(text, fromUser=false){
@@ -351,7 +324,7 @@ function appendMessage(text, fromUser=false){
 
 function botReply(input){
   input=input.toLowerCase();
-  if(input.includes('سعر')||input.includes('كم')) return 'السعر الحالي: 170 ج للكابل (لوحده) + 600 ج للإيربودز برو (الكابل هدية).';
+  if(input.includes('سعر')||input.includes('كم')) return 'السعر الحالي: 170 ج للكابل + 600 ج للإيربودز برو.';
   if(input.includes('توصيل')) return 'التوصيل مجاني لجميع المحافظات 🚚';
   if(input.includes('طريقة الدفع')) return 'الدفع عند الاستلام متاح لجميع الطلبات 💵';
   if(input.includes('كمية')) return 'يمكنك تعديل الكمية لأي منتج باستخدام أزرار + و - أو كتابة الرقم مباشرة.';
@@ -360,5 +333,6 @@ function botReply(input){
 </script>
 </body>
 </html>
+
 
 
