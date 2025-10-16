@@ -246,36 +246,29 @@ document.getElementById('orderForm').addEventListener('submit', function(e){
   const phone = document.getElementById('phone').value.trim();
   const phone2 = document.getElementById('phone2').value.trim();
   const address = document.getElementById('address').value.trim();
-  const qCable = Number(qtyCable.value)||0;
+  let qCable = Number(qtyCable.value)||0;
   const qAirpods = Number(qtyAirpods.value)||0;
 
   if(!name || !phone){ alert('من فضلك اكتب الاسم ورقم الموبايل الأساسي.'); return; }
 
-  // كابل هدية لكل ايربودز
-  let freeCable = 0;
-  if(qAirpods > 0) freeCable = qAirpods;
-  let finalQtyCable = qCable + freeCable;
+  // إضافة كابل مجاني لكل ايربودز
+  const freeCable = qAirpods; 
+  const totalCablePrice = qCable * unitPriceCable; // السعر الفعلي للكابل الذي اشتراه العميل فقط
+  const totalAirpodsPrice = qAirpods * unitPriceAirpods;
+  const total = totalCablePrice + totalAirpodsPrice;
 
-  // الحساب الفعلي للسعر (لا يشمل الكابل المجاني)
-  const total = (qAirpods * unitPriceAirpods) + (qCable * unitPriceCable);
-
-  // ارسال البيانات الى Google Sheet
   fetch(GOOGLE_SHEET_WEBAPP,{
     method:"POST",
     mode:"no-cors",
     headers:{"Content-Type":"application/x-www-form-urlencoded"},
     body: new URLSearchParams({
-      name,
-      phone,
-      phone2,
-      address,
-      qtyCable: finalQtyCable,
+      name, phone, phone2, address,
+      qtyCable: qCable + freeCable, // ارسال الكابل المجاني مع الايربودز
       qtyAirpods: qAirpods,
       total
     })
   });
 
-  // عرض الملخص
   const summary = `<div style="padding:12px;background:#f1f9ff;border-radius:8px">
 <strong>✅ تم استلام طلبك في Trendolla Store!</strong>
 <div style="margin-top:8px">الاسم: ${escapeHtml(name)}</div>
@@ -283,10 +276,11 @@ document.getElementById('orderForm').addEventListener('submit', function(e){
 ${phone2?`<div>موبايل إضافي: ${escapeHtml(phone2)}</div>`:''}
 <div>العنوان: ${escapeHtml(address||'غير مدخل')}</div>
 <div>كمية الايربودز: ${qAirpods}</div>
-<div>كمية الكابل: ${finalQtyCable} ${freeCable>0?`(واحد كابل هدية لكل ايربودز)`:''}</div>
+<div>كمية الكابل: ${qCable} ${freeCable?'(+ '+freeCable+' كابل هدية)': ''}</div>
 <div style="font-weight:700;margin-top:6px">الإجمالي: ${total} ج</div>
 <div style="margin-top:8px;font-size:13px;color:var(--muted)">سيتم الاتصال بك لتأكيد الطلب والدفع عند الاستلام.</div>
 </div>`;
+
   document.getElementById('orderResult').innerHTML = summary;
   document.getElementById('orderResult').style.display='block';
   this.reset();
@@ -330,6 +324,7 @@ function botReply(input){
 </script>
 </body>
 </html>
+
 
 
 
