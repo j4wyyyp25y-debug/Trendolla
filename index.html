@@ -27,7 +27,6 @@ nav{margin-right:auto;display:flex;gap:10px;align-items:center}
 .container{max-width:1100px;margin:28px auto;padding:0 16px}
 .grid{display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start}
 .card{background:var(--card);border-radius:12px;box-shadow:0 8px 30px rgba(12,20,40,0.06);padding:18px}
-/* product images area */
 .product-img{width:100%;height:320px;border-radius:10px;background:linear-gradient(135deg,#e6efff,#f9fbff);display:flex;align-items:center;justify-content:center;gap:12px;padding:12px}
 .product-img .img-wrap{flex:1;overflow:hidden;border-radius:10px;background:white;display:flex;align-items:center;justify-content:center;padding:8px;box-shadow:0 6px 20px rgba(12,20,40,0.04)}
 .product-img img{max-width:100%;max-height:100%;object-fit:contain;display:block}
@@ -105,7 +104,6 @@ footer{max-width:1100px;margin:24px auto;padding:18px;text-align:center;color:va
       <li>🔹 بطارية قوية تدوم بالساعات</li>
     </ul>
     <div class="price" id="airpodsPrice">السعر: 600 ج</div>
-
     <div class="qty-row" style="margin-top:14px">
       <label style="font-weight:700">الكمية</label>
       <input type="number" id="qtyAirpods" min="0" value="0" />
@@ -117,12 +115,6 @@ footer{max-width:1100px;margin:24px auto;padding:18px;text-align:center;color:va
     </div>
   </div>
 </div>
-<div class="order-summary" id="price-breakdown">
-<div>ملخص السعر: <span id="total-text">0 ج</span></div>
-</div>
-<div class="note">ملحوظة: الدفع عند الاستلام — سيطلب منك المندوب المبلغ عند التسليم.</div>
-</div>
-<div style="height:32px"></div>
 
 <!-- منتج 2: الكابل بعد الايربودز -->
 <div class="card" id="productSection">
@@ -149,12 +141,6 @@ footer{max-width:1100px;margin:24px auto;padding:18px;text-align:center;color:va
 <button class="primary buyNowBtn">اطلب الآن</button>
 </div>
 </div>
-<div class="order-summary" id="price-breakdown">
-<div>ملخص السعر: <span id="total-text">0 ج</span></div>
-</div>
-<div class="note">ملحوظة: الدفع عند الاستلام — سيطلب منك المندوب المبلغ عند التسليم.</div>
-</div>
-<div style="height:32px"></div>
 </div>
 </div>
 <aside>
@@ -209,7 +195,6 @@ footer{max-width:1100px;margin:24px auto;padding:18px;text-align:center;color:va
 </footer>
 
 <script>
-// ====== Pricing logic ======
 const unitPriceCable = 170;
 const unitPriceAirpods = 600;
 
@@ -232,25 +217,22 @@ function refreshPrices() {
   totalText.textContent = 'الإجمالي: ' + total + ' ج';
 }
 
-// أزرار الكابل
 document.getElementById('addCable').addEventListener('click', ()=>{ qtyCable.value = Number(qtyCable.value) + 1; refreshPrices(); });
 document.getElementById('subCable').addEventListener('click', ()=>{ qtyCable.value = Math.max(0, Number(qtyCable.value) - 1); refreshPrices(); });
 qtyCable.addEventListener('input', refreshPrices);
 
-// أزرار الايربودز
 document.getElementById('addAirpods').addEventListener('click', ()=>{ qtyAirpods.value = Number(qtyAirpods.value) + 1; refreshPrices(); });
 document.getElementById('subAirpods').addEventListener('click', ()=>{ qtyAirpods.value = Math.max(0, Number(qtyAirpods.value) - 1); refreshPrices(); });
 qtyAirpods.addEventListener('input', refreshPrices);
 
 refreshPrices();
 
-// Scroll buttons
 document.getElementById('shopNowBtn').addEventListener('click', ()=>{ window.open("https://whatsapp.com/channel/0029VbAxdH7K0IBaED4Nu53L","_blank"); });
 document.getElementById('contactBtn').addEventListener('click', ()=>{ document.getElementById('orderSection').scrollIntoView({behavior:'smooth', block:'center'}); setTimeout(()=> document.getElementById('name').focus(),450); });
 document.querySelectorAll('.buyNowBtn').forEach(btn=>{ btn.addEventListener('click', ()=>{ document.getElementById('orderSection').scrollIntoView({behavior:'smooth', block:'center'}); document.getElementById('name').focus(); }); });
 
-// Order form -> Google Sheet
 const GOOGLE_SHEET_WEBAPP = "https://script.google.com/macros/s/AKfycby8mHrp_t5XfefTpftxK01vEj_iWKforQYA3JBWFCdioGtF-wMJpUb78tnNJbg8SdE5/exec"
+
 document.getElementById('orderForm').addEventListener('submit', function(e){
   e.preventDefault();
   const name = document.getElementById('name').value.trim();
@@ -259,15 +241,20 @@ document.getElementById('orderForm').addEventListener('submit', function(e){
   const address = document.getElementById('address').value.trim();
   const qCable = Number(qtyCable.value)||0;
   const qAirpods = Number(qtyAirpods.value)||0;
-  const total = qCable*unitPriceCable + qAirpods*unitPriceAirpods;
 
   if(!name || !phone){ alert('من فضلك اكتب الاسم ورقم الموبايل الأساسي.'); return; }
+
+  // تحديد الكابل المجاني مع الايربودز
+  let finalQtyCable = qCable;
+  if(qAirpods > 0) finalQtyCable += qAirpods; // إضافة الكابل المجاني لكل ايربودز
+
+  const total = (qAirpods * unitPriceAirpods) + (qCable * unitPriceCable);
 
   fetch(GOOGLE_SHEET_WEBAPP,{
     method:"POST",
     mode:"no-cors",
     headers:{"Content-Type":"application/x-www-form-urlencoded"},
-    body: new URLSearchParams({name,phone,phone2,address,qtyCable:qCable,qtyAirpods:qAirpods,total})
+    body: new URLSearchParams({name,phone,phone2,address,qtyCable:finalQtyCable,qtyAirpods:qAirpods,total})
   });
 
   const summary = `<div style="padding:12px;background:#f1f9ff;border-radius:8px">
@@ -276,8 +263,8 @@ document.getElementById('orderForm').addEventListener('submit', function(e){
 <div>الموبايل: ${escapeHtml(phone)}</div>
 ${phone2?`<div>موبايل إضافي: ${escapeHtml(phone2)}</div>`:''}
 <div>العنوان: ${escapeHtml(address||'غير مدخل')}</div>
-<div>كمية الكابل: ${qCable}</div>
 <div>كمية الايربودز: ${qAirpods}</div>
+<div>كمية الكابل: ${finalQtyCable} (واحد هدية مع كل ايربودز)</div>
 <div style="font-weight:700;margin-top:6px">الإجمالي: ${total} ج</div>
 <div style="margin-top:8px;font-size:13px;color:var(--muted)">سيتم الاتصال بك لتأكيد الطلب والدفع عند الاستلام.</div>
 </div>`;
@@ -288,7 +275,6 @@ ${phone2?`<div>موبايل إضافي: ${escapeHtml(phone2)}</div>`:''}
 
 function escapeHtml(text){ return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-// Quick Contact WA
 document.getElementById('quickContact').addEventListener('click', ()=>{
   const waNumber="201093931681";
   const preset=encodeURIComponent("مرحبا! أريد الاستفسار عن كابل 4×1 + إيربودز برو");
@@ -303,7 +289,6 @@ const sendChat=document.getElementById('sendChat');
 const chatBody=document.getElementById('chatBody');
 
 chatBtn.addEventListener('click', ()=>{ chatWindow.style.display = chatWindow.style.display==='flex'?'none':'flex'; });
-
 sendChat.addEventListener('click', ()=>{ const v=chatInput.value.trim(); if(!v) return; appendMessage(v,true); chatInput.value=''; setTimeout(()=> appendMessage(botReply(v),false),500); });
 chatInput.addEventListener('keydown',(e)=>{ if(e.key==='Enter'){sendChat.click(); } });
 
@@ -329,6 +314,7 @@ function botReply(input){
 </script>
 </body>
 </html>
+
 
 
 
